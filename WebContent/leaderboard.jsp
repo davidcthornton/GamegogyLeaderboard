@@ -1,5 +1,4 @@
 <!--
-
 	Gamegogy Leaderboard 1.1
     Copyright (C) 2013  David Thornton
 
@@ -163,7 +162,8 @@
 	 				gamegogyLeaderboardChart = new Highcharts.Chart({
 					chart: {
 						renderTo: 'leaderboardBlockChartContainer',
-						type: 'bar'
+						type: 'bar',
+						spacingBottom: 70 
 					},
 	                   plotOptions: {
 	                       series: {
@@ -178,7 +178,8 @@
 					title: {
 						text: null
 					},						
-					xAxis: {						
+					xAxis: {		
+						rotation: -45,
 						categories: studentNames,
 						title: {
 							text: null
@@ -190,6 +191,7 @@
 						},
 						gridLineWidth: 0,
 						labels: {
+							
 							enabled: false
 						},
 						offset: 20,
@@ -218,8 +220,8 @@
 								out.print("{ color: 'rgb("+gradient+", "+gradient+", "+gradient+")', ");
 								out.print("from: "+levelFrom+", ");
 								out.print("to: "+levelTo+", ");
-								if (j == 1) out.print("label: { text: '', verticalAlign: 'bottom', style: { color: '#666666'}}}");
-								else out.print("label: { text: 'LvL "+j+"', verticalAlign: 'bottom', style: { color: '#666666'}}}");
+								if (j == 1) out.print("label: { text: '',rotation: -45,align: 'right', verticalAlign: 'bottom', style: { color: '#666666'}}}"); 
+								else out.print("label: { text: 'Level Long Title"+j+"',rotation: -45,align: 'right', verticalAlign: 'bottom', style: { color: '#666666'}}}"); 
 								//Add commas after plotband elements until the last element which does not need one.
 								if(j<filledLevels){out.print(",");}
 							}
