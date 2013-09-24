@@ -23,12 +23,15 @@ if (request.getMethod().equalsIgnoreCase("POST")) {
 		
 		int numFilledLevels = 10;
 		String setting = "";
+		String levelLabel =""; //ADDED 09/27/2013
 		String courseID = request.getParameter("courseID"); //Gets courseID that was passed from leaderboard_config.jsp -JJL
 		// Get level values from user-submitted data and add it to the persistence object.
 		for(int i = 1; i <= 10; i++) {
 			setting = (i == 1)? "0":request.getParameter("Level_" + i + "_Points");
+			levelLabel = (i == 1)? "0":request.getParameter("Level_" + i + "_Labels"); //ADDED 09/27/2013
 			
 			b2Context_c.setSetting(false, true, "Level_" + i + "_Points" + courseID, setting);
+			b2Context_c.setSetting(false, true, "Level_" + i + "_Labels" + courseID, levelLabel); //ADDED 09/27/2013
 			//Count the number of levels by subtracting empty strings from total available levels.
 			if(setting == ""){numFilledLevels--;}
 		}

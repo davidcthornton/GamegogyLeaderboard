@@ -2,8 +2,8 @@
 <manifest>
 	<!-- core extension information -->
 	<plugin>
-		<name value= "Gamegogy Leaderboard Block FALL 491"/>
-		<handle value= "leaderboardblock491"/>
+		<name value= "Gamegogy Leaderboard Block FALL"/>
+		<handle value= "leaderboardblockFALL"/>
 		<description value= "This module displays students' total points and their rank compared to their classmates.  An instructor will see the students' names displayed, while students will only see an anonymized rank."/>
 		<version value= "1.1"/>
 		<requires>
@@ -20,13 +20,13 @@
   
 		<!-- Modules, types, and channels for the community -->
 		<module-defs>		
-			<module-type ext-ref="leaderboardblock491" title="Gamegogy Leaderboard Block FALL 491" uicreatable="true">
+			<module-type ext-ref="leaderboardblockFALL" title="Gamegogy Leaderboard Block FALL" uicreatable="true">
 				<jsp>		
 				  <view>leaderboard.jsp</view>		
 				  <edit>leaderboard_config.jsp</edit>
 				</jsp>		
 			</module-type>		
-			<module type="leaderboardblock491" isadmin="true" isavailabletocourse="true" useraddable="true" isdeletable="true" isdetachable="true" title="Gamegogy Leaderboard Block FALL 491">		
+			<module type="leaderboardblockFALL" isadmin="true" isavailabletocourse="true" useraddable="true" isdeletable="true" isdetachable="true" title="Gamegogy Leaderboard Block FALL">		
 				<description>This module displays students' total points and their rank compared to their classmates.  An instructor will see the students' names displayed, while students will only see an anonymized rank.</description>		
 				<ExtraInfo />		
 				<module-groups>		

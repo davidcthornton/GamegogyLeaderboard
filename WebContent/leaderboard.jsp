@@ -163,7 +163,7 @@
 					chart: {
 						renderTo: 'leaderboardBlockChartContainer',
 						type: 'bar',
-						spacingBottom: 70 
+						spacingBottom: 75 
 					},
 	                   plotOptions: {
 	                       series: {
@@ -203,6 +203,7 @@
 							
 							int levelFrom = 0;
 							int levelTo = 0;
+							String levelLabel = ""; //ADDED 09/27/2013 HOLDS THE LEVEL LABEL
 							
 							//For each level where a custom value was provided...
 							for(int j = 1; j<=filledLevels; j++){
@@ -216,12 +217,16 @@
 								//Calculate the correct gradient color using RGB and dividing with respect to filledLevels.
 								int gradient = (255/(filledLevels+10))*((filledLevels+10)-j);
 								
+								//Gets the current level title if there is not title sets it to a default level lable ADDED 09/27/2013
+								levelLabel = b2Context.getSetting(false,true,"Level_" + (j) + "_Labels"+ courseID.toExternalString());
+								if (levelLabel == "") levelLabel = "Level " +j; //Sets the default level title
+								
 								//Output javascript for each highchart plotband.
 								out.print("{ color: 'rgb("+gradient+", "+gradient+", "+gradient+")', ");
 								out.print("from: "+levelFrom+", ");
 								out.print("to: "+levelTo+", ");
-								if (j == 1) out.print("label: { text: '',rotation: -45,align: 'right', verticalAlign: 'bottom', style: { color: '#666666'}}}"); //Adds rotation to labels -Jll
-								else out.print("label: { text: 'Level Long Title"+j+"',rotation: -45,align: 'right', verticalAlign: 'bottom', style: { color: '#666666'}}}"); //Adds rotation to labels -Jll
+								if (j == 1) out.print("label: { text: '',rotation: -45,align: 'center',textAlign: 'right', verticalAlign: 'bottom', style: { color: '#666666'}}}"); //Adds rotation to labels -Jll
+								else out.print("label: { text: '"+ levelLabel +"',rotation: -45,textAlign: 'right',align: 'center', verticalAlign: 'bottom', style: { color: '#666666', fontFamily: 'Verdana, sans-serif'}}}"); //Adds rotation to labels -Jll
 								//Add commas after plotband elements until the last element which does not need one.
 								if(j<filledLevels){out.print(",");}
 							}

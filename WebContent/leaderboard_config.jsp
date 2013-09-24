@@ -17,6 +17,7 @@
 	String user_color_value = "";
 	Id courseID = ctx.getCourseId();
 	String [] level_values = new String[10];
+	String [] level_labels = new String[10];
 	String jsConfigFormPath = PlugInUtil.getUri("dt", "leaderboardblock11", "js/config_form.js");
 		
 	// Create a new persistence object.  Don't save empty fields.
@@ -27,9 +28,10 @@
 	color_value = b2Context.getSetting(true, false, "color");
 	user_color_value = b2Context.getSetting(true, false, "user_color");
 	
-	// Grab previously saved level values
+	// Grab previously saved level values and labels
 	for(int i = 0; i < 10; i++){
 		level_values[i] = b2Context.getSetting(false, true, "Level_" + (i+1) + "_Points" + courseID.toExternalString() );
+		level_labels[i] = b2Context.getSetting(false, true, "Level_" + (i+1) + "_Labels" + courseID.toExternalString());
 	}
 %>
 
@@ -68,12 +70,19 @@
 						<bbNG:elementInstructions text="Set point requirements for each level. Everyone starts at Level 1. Note: Higher levels are not shown on the leaderboard until at least one student reaches that level." />
 						<table>
 							<!-- Fill up table with 10 levels.  Includes label & input field -->
+							<tr>
+								<th>Point Level</th>
+								<th> </th>
+								<th>Level Titles</th>
+							</tr>
 							<% for(int i = 2; i <= 10; i++) { %>
 								<tr id="Level_<%= i %>">
 									<td>Level <%= i %> -</td>
 									<input type="hidden" name="courseID" value="<%= courseID.toExternalString() %>" /> <!--Have to use toExternalString() to get the courseID Key ;Used to pass the CourseID to leaderboard_save.jsp -JJL -->
 									<td><input type="text" name="Level_<%= i %>_Points" size="3" value="<%=level_values[i-1]%>" onkeyup="checkForm()"/></td>
+									<td><input type="text" name="Level_<%= i %>_Labels" size="18" value="<%=level_labels[i-1]%> " /></td>
 								</tr>
+								
 							<% } %>
 						</table>
 						<!--
@@ -86,6 +95,14 @@
 						<script type="text/javascript" src="<%= jsConfigFormPath %>"></script>
 					</bbNG:dataElement>
 				</bbNG:step>
+				
+				<!-- This is were the Hide/Show student form will go -->
+				<bbNG:step title="Hide Show Students">
+					<bbNG:dataElement>
+						<bbNG:elementInstructions text=" Instruction Text to go here" />
+					</bbNG:dataElement>
+				</bbNG:step>
+				
 			<% } else { %>
 				<!-- Color Picker -->
 				<bbNG:step title="Everyone else's color">
