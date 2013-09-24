@@ -23,16 +23,18 @@ if (request.getMethod().equalsIgnoreCase("POST")) {
 		
 		int numFilledLevels = 10;
 		String setting = "";
+		String courseID = request.getParameter("courseID"); //Gets courseID that was passed from leaderboard_config.jsp -JJL
 		// Get level values from user-submitted data and add it to the persistence object.
 		for(int i = 1; i <= 10; i++) {
 			setting = (i == 1)? "0":request.getParameter("Level_" + i + "_Points");
-			b2Context_c.setSetting(false, true, "Level_" + i + "_Points", setting);
+			
+			b2Context_c.setSetting(false, true, "Level_" + i + "_Points" + courseID, setting);
 			//Count the number of levels by subtracting empty strings from total available levels.
 			if(setting == ""){numFilledLevels--;}
 		}
 		
 		//Add number of levels key-pair to the persistence object.
-		b2Context_c.setSetting(false,true,"num_filled_levels",Integer.toString(numFilledLevels));
+		b2Context_c.setSetting(false,true,"num_filled_levels" + courseID,Integer.toString(numFilledLevels)); //Added courseID to num_filled to fix couse overide bug -JJL
 		
 		// Save course settings
 		b2Context_c.persistSettings(false, true);

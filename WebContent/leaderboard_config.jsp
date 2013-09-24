@@ -11,10 +11,11 @@
 <%@ taglib uri="/bbNG" prefix="bbNG"%>
 
 <%@page import="com.spvsoftwareproducts.blackboard.utils.B2Context"%>
-
+<bbNG:modulePage type="personalize" ctxId="ctx">
 <%
 	String color_value = "";
 	String user_color_value = "";
+	Id courseID = ctx.getCourseId();
 	String [] level_values = new String[10];
 	String jsConfigFormPath = PlugInUtil.getUri("dt", "leaderboardblock11", "js/config_form.js");
 		
@@ -28,11 +29,11 @@
 	
 	// Grab previously saved level values
 	for(int i = 0; i < 10; i++){
-		level_values[i] = b2Context.getSetting(false, true, "Level_" + (i+1) + "_Points");
+		level_values[i] = b2Context.getSetting(false, true, "Level_" + (i+1) + "_Points" + courseID.toExternalString() );
 	}
 %>
 
-<bbNG:modulePage type="personalize" ctxId="ctx">
+
 <bbNG:pageHeader>
 	<bbNG:pageTitleBar title="Leaderboard Configuration"></bbNG:pageTitleBar>
 </bbNG:pageHeader>
@@ -70,6 +71,7 @@
 							<% for(int i = 2; i <= 10; i++) { %>
 								<tr id="Level_<%= i %>">
 									<td>Level <%= i %> -</td>
+									<input type="hidden" name="courseID" value="<%= courseID.toExternalString() %>" /> <!--Have to use toExternalString() to get the courseID Key ;Used to pass the CourseID to leaderboard_save.jsp -JJL -->
 									<td><input type="text" name="Level_<%= i %>_Points" size="3" value="<%=level_values[i-1]%>" onkeyup="checkForm()"/></td>
 								</tr>
 							<% } %>

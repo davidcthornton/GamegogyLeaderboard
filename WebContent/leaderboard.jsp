@@ -198,7 +198,7 @@
 						plotBands: [
 							<%
 							//Capture the number of levels as it was saved in the persistence object by leaderboard_save.jsp.
-							String s =  b2Context.getSetting(false,true,"num_filled_levels");
+							String s =  b2Context.getSetting(false,true,"num_filled_levels" + courseID.toExternalString());
 							int filledLevels = (s == "")? 0: Integer.parseInt(s);
 							
 							int levelFrom = 0;
@@ -207,11 +207,11 @@
 							//For each level where a custom value was provided...
 							for(int j = 1; j<=filledLevels; j++){
 								//Gather the target value to achieve the current level from the persistence object.
-								levelFrom = Integer.parseInt(b2Context.getSetting(false,true,"Level_" + (j) + "_Points"));
+								levelFrom = Integer.parseInt(b2Context.getSetting(false,true,"Level_" + (j) + "_Points"+ courseID.toExternalString()));
 								if(j == filledLevels) {
 									levelTo = levelFrom * 2;
 								} else {
-									levelTo = Integer.parseInt(b2Context.getSetting(false,true,"Level_" + (j+1) + "_Points"));
+									levelTo = Integer.parseInt(b2Context.getSetting(false,true,"Level_" + (j+1) + "_Points"+ courseID.toExternalString()));
 								}
 								//Calculate the correct gradient color using RGB and dividing with respect to filledLevels.
 								int gradient = (255/(filledLevels+10))*((filledLevels+10)-j);
@@ -220,8 +220,8 @@
 								out.print("{ color: 'rgb("+gradient+", "+gradient+", "+gradient+")', ");
 								out.print("from: "+levelFrom+", ");
 								out.print("to: "+levelTo+", ");
-								if (j == 1) out.print("label: { text: '',rotation: -45,align: 'right', verticalAlign: 'bottom', style: { color: '#666666'}}}"); 
-								else out.print("label: { text: 'Level Long Title"+j+"',rotation: -45,align: 'right', verticalAlign: 'bottom', style: { color: '#666666'}}}"); 
+								if (j == 1) out.print("label: { text: '',rotation: -45,align: 'right', verticalAlign: 'bottom', style: { color: '#666666'}}}"); //Adds rotation to labels -Jll
+								else out.print("label: { text: 'Level Long Title"+j+"',rotation: -45,align: 'right', verticalAlign: 'bottom', style: { color: '#666666'}}}"); //Adds rotation to labels -Jll
 								//Add commas after plotband elements until the last element which does not need one.
 								if(j<filledLevels){out.print(",");}
 							}
