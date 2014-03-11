@@ -116,6 +116,7 @@
 							}
 						}
 					}
+					//Test comment line to ensure GitHub works properly
 					else{//No save file so just add everyone the course has.
 						students.add(new Student(cm.getUser().getGivenName(), cm.getUser().getFamilyName(), currScore));
 					}
