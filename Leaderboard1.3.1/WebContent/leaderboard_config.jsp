@@ -16,6 +16,7 @@
 <%@page import="com.spvsoftwareproducts.blackboard.utils.B2Context"%>
 <bbNG:modulePage type="personalize" ctxId="ctx">
 <%
+	//This is a test
 	String color_value = "";
 	String user_color_value = "";
 	Id courseID = ctx.getCourseId();
