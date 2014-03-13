@@ -13,6 +13,7 @@
 <%@page import="blackboard.servlet.data.MultiSelectBean"%>
 
 <%
+//test push from Tim Burch in lab 3-13-14
 String s = "<script>history.go(-2);</script>";
 
 if (request.getMethod().equalsIgnoreCase("POST")) {
