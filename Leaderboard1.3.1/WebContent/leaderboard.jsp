@@ -33,6 +33,7 @@
 
 	<%
 		// test push from Tim Burch in lab 3-13-14
+		// test push from Tim Burch at home 3-13-14
 		// get the current user
 		User sessionUser = ctx.getUser();
 		Id courseID = ctx.getCourseId();		
