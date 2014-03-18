@@ -51,7 +51,7 @@
 	<bbNG:dataCollection>
 		
 			<%	
-				// get the current user's information
+				//Ensure user accessing configuration is an instructor
 				String sessionUserRole = ctx.getCourseMembership().getRoleAsString();
 				boolean isUserAnInstructor = false;
 				if (sessionUserRole.trim().toLowerCase().equals("instructor")) {
@@ -82,7 +82,12 @@
 								<th style="text-align:center;"> Points Required</th>
 								<th style="text-align:center;">Title</th>
 							</tr>
-							<% for(int i = 2; i <= 10; i++) { 
+							
+							<% 
+							//Establish levels for students based on XP
+							//Currently, students start at an unnamed Level 1 and have a lelvel cap of 10.
+							//We may want to change this where they start at 0 and can go to as many levels as the teacher allows.
+							for(int i = 2; i <= 10; i++) { 
 								//Sets default level titles
 								String levelLabel;
 								String levelPoints;
@@ -128,14 +133,22 @@
 				Started by Zack White.
 				Last edit 3-9-14 by Tim Burch.
 				*/
+				
+				//Create B2Context object for show/hide feature
 				B2Context b2Context_sh = new B2Context(request);
 				b2Context_sh.setSaveEmptyValues(false);
+						
+				//Create show/hide UI
 				List<MultiSelectBean> leftList = new ArrayList<MultiSelectBean>();
 				List<MultiSelectBean> rightList = new ArrayList<MultiSelectBean>();
 				String modified = b2Context_sh.getSetting(false, true, "modified" +  courseID.toExternalString());
 				List<CourseMembership> cmlist = CourseMembershipDbLoader.Default.getInstance().loadByCourseIdAndRole(courseID, CourseMembership.Role.STUDENT, null, true);
 				
+				//Logic to determine if the default or a saved show/hide list is used
 				if(modified.equals("true")){//A save file already exists.
+					//Blackboard only saves and loads information in strings
+					//Each list is saved as one string of names with the following format:
+					//"firstName lastName, firstName lastName, etc."
 					String visibleList = b2Context_sh.getSetting(false, true, "visibleStudents" +  courseID.toExternalString());
 					String[] visibleArr = visibleList.split(",");
 					if(!(visibleList.trim().equals(" ")) && !(visibleList.trim().isEmpty()) && visibleList != null){
@@ -189,7 +202,7 @@
 						}
 					}// end of check for newly added student
 				//}// end of if a save file already exists
-				else{//Set default with everyone visible since lists haven't been created yet.
+				else{//If there isn't a config file saved, set default with everyone visible since lists haven't been created yet.
 					for(int i = 0; i < cmlist.size(); i ++){
 						MultiSelectBean leftBean = new MultiSelectBean();
 						User student = cmlist.get(i).getUser();
@@ -207,27 +220,28 @@
 				
 				<!-- Grade Column Chooser -->
 				<%
+					//Create a string array for the levels and point values from the config file
 					for(int i = 0; i < 10; i++){
 						level_values[i] = b2Context.getSetting(false, true, "Level_" + (i+1) + "_Points" + courseID.toExternalString() );
 						level_labels[i] = b2Context.getSetting(false, true, "Level_" + (i+1) + "_Labels" + courseID.toExternalString());
 					}
 					
-					// use the GradebookManager to get the gradebook data
+					//Use the GradebookManager to get the gradebook data
 					GradebookManager gm = GradebookManagerFactory.getInstanceWithoutSecurityCheck();
 					BookData bookData = gm.getBookData(new BookDataRequest(courseID));
 					List<GradableItem> lgm = gm.getGradebookItems(courseID);
-					// it is necessary to execute these two methods to obtain calculated students and extended grade data
+					//It is necessary to execute these two methods to obtain calculated students and extended grade data
 					bookData.addParentReferences();
 					bookData.runCumulativeGrading();
 						
-					// create list of grade columns
+					//Create list of grade columns, so the instructor can select the grade to set for the widget if it is not the overall grade
 					String[] gradeList = new String[lgm.size()];
 					for (int i = 0; i < lgm.size(); i++) {
 						GradableItem gi = (GradableItem) lgm.get(i);
 						gradeList[i] = gi.getTitle();
 					}
 					
-					// load previous grade column choice. Sets default column as "Total". 
+					//Load previous grade column choice. Sets default column as "Total". 
 					String prev_grade_choice = "Total";
 					String prev_grade_string = "";
 					B2Context b2Context_grade = new B2Context(request);
