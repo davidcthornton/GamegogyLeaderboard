@@ -167,17 +167,22 @@
 	  				
 	  				var studentNames = [
 	 				<%	
+	 						//Add names to plotbands
 	 						for (int x = 0; x < students.size(); x++){
 	 							String firstName = (String) students.get(x).firstName;
 	  							String lastName = (String) students.get(x).lastName;
 	  							String userName = students.get(x).getUserName();
+	  							
+	  							//If the user is an instructor, all names are displayed
 	 							if(canUserSeeScores){
 		  							out.print('"' + firstName.substring(0, 1) + ' ' + lastName + '"');   						
 	 							}
+	 							//If the user is a student, only their name is added to their plotband
 	 							else if(sessionUser.getGivenName().equals(firstName) && sessionUser.getFamilyName().equals(lastName)
 	 									&& sessionUser.getUserName().equals(userName)){
 	 								out.print('"' + firstName.substring(0, 1) + ' ' + lastName + '"');   						
 	 							}
+	  							
 	 							if (x < students.size() -1) { 
   									out.print(","); 
   								}
