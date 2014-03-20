@@ -4,12 +4,19 @@ final class Student implements Comparable<Student> {
     public String firstName;
     public String lastName;
     private boolean hidden;
+    private String userName;
     
-    public Student(String firstName, String lastName, Double score) {
+    public Student(String firstName, String lastName, Double score, String userName) {
         this.score = score;
         this.firstName = firstName;
         this.lastName = lastName;
         this.hidden = false;
+        this.userName = userName;
+    }
+    
+    public String getUserName(){
+    	
+    	return userName;
     }
     
     public int compareTo(Student s) {
