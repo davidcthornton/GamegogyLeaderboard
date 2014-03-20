@@ -104,7 +104,7 @@
 						String stuName = cm.getUser().getGivenName() +" " + cm.getUser().getFamilyName() + ": " + cm.getUser().getUserName();
 						for(int l = 0; l < hiddenArr.length; l++){
 							if(stuName.equals(sessionUserName)){//Only add user if they're the session user.
-								students.add(new Student(cm.getUser().getGivenName(), cm.getUser().getFamilyName(), currScore));
+								students.add(new Student(cm.getUser().getGivenName(), cm.getUser().getFamilyName(), currScore, cm.getUser().getUserName()));
 								break;
 							}
 							else if(stuName.equals(hiddenArr[l])){//No need to check further. Student on hidden list will not be added.
@@ -113,13 +113,13 @@
 							//If the whole hidden list has been checked and this is the last pass, the student must
 							//not be on the hidden list. So make the last check and add him or her if it passes.
 							else if(!(stuName.equals(hiddenArr[l])) && l == hiddenArr.length-1){
-								students.add(new Student(cm.getUser().getGivenName(), cm.getUser().getFamilyName(), currScore));
+								students.add(new Student(cm.getUser().getGivenName(), cm.getUser().getFamilyName(), currScore, cm.getUser().getUserName()));
 							}
 						}
 					}
 					//Test comment line to ensure GitHub works properly
 					else{//No save file so just add everyone the course has.
-						students.add(new Student(cm.getUser().getGivenName(), cm.getUser().getFamilyName(), currScore));
+						students.add(new Student(cm.getUser().getGivenName(), cm.getUser().getFamilyName(), currScore, cm.getUser().getUserName()));
 					}
 				}		
 			}
@@ -167,27 +167,28 @@
 	  				
 	  				var studentNames = [
 	 				<%	
-	 					if (canUserSeeScores) {
 	 						for (int x = 0; x < students.size(); x++){
-		  						String firstName = (String) students.get(x).firstName;
-		  						String lastName = (String) students.get(x).lastName;
-		  						out.print('"' + firstName.substring(0, 1) + ' ' + lastName + '"');   						
-	  							if (x < students.size() -1) { 
-	  								out.print(","); 
+	 							String firstName = (String) students.get(x).firstName;
+	  							String lastName = (String) students.get(x).lastName;
+	  							String userName = students.get(x).getUserName();
+	 							if(canUserSeeScores){
+		  							out.print('"' + firstName.substring(0, 1) + ' ' + lastName + '"');   						
+	 							}
+	 							else if(sessionUser.getGivenName().equals(firstName) && sessionUser.getFamilyName().equals(lastName)
+	 									&& sessionUser.getUserName().equals(userName)){
+	 								out.print('"' + firstName.substring(0, 1) + ' ' + lastName + '"');   						
+	 							}
+	 							if (x < students.size() -1) { 
+  									out.print(","); 
+  								}
+	  							else { 
+	  								out.print("];"); 
 	  							}
-		  						else { 
-		  							out.print("];"); 
-		  						}
-	  						}
-	 					}	  				
-	 					else {
-	 						//Add current user's name to their highlight bar
-	 						String name = (String)cm.getUser().getGivenName().substring(0,1) + ". " + (String)cm.getUser().getFamilyName();
-	 						//Attach name to the user's bar
-	 						
+	  						}  				
+
 	 						// this is a remote kludge
-	 						out.print("1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50];");
-	 					}
+	 						//out.print("1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50];");
+
 	 				%>
 		
 				
