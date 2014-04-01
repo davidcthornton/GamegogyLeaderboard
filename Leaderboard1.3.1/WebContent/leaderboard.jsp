@@ -288,5 +288,5 @@
 				}); //end of chart
 			}); // end of ready function									  		
 		</script>	
-	<div id="leaderboardBlockChartContainer"></div>
+	<div id="leaderboardBlockChartContainer" overflow:scroll></div>
 </bbNG:includedPage>
