@@ -53,6 +53,22 @@ if (request.getMethod().equalsIgnoreCase("POST")) {
 		b2Context_c.setSetting(false, true, "hiddenStudents" + courseID, rightVals);
 		b2Context_c.setSetting(false, true, "modified" + courseID, "true");
 		
+		//Parse leftVals string to get number of students (commas)
+		int numCommas = 0;
+		if(leftVals.length() > 0){
+			char[] studentCharArray = leftVals.toCharArray();
+			for(char c : studentCharArray){
+				if(c == ','){
+					numCommas += 1;
+				}
+			}
+		}
+		else numCommas = 1;
+		
+		String numStudents = numCommas + "";
+		
+		b2Context_c.setSetting(false, true, "numVisibleStudents" + courseID, numStudents);
+		
 		// Save course settings
 		b2Context_c.persistSettings(false, true);
 	}
