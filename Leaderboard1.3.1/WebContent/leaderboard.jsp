@@ -32,8 +32,6 @@
 <%@include file="leaderboard_student.jsp" %>
 
 	<%
-		// test push from Tim Burch in lab 3-13-14
-		// test push from Tim Burch at home 3-13-14
 		// get the current user
 		User sessionUser = ctx.getUser();
 		Id courseID = ctx.getCourseId();		
@@ -60,7 +58,20 @@
 		}	
 		Double scoreToHighlight = -1.0;
 		int index = 0;
+		/*
+		Starting point for dynamic chart sizing for scrolling based on number of students.
+		Currently default at 1000. Needs to be moved to javascript somehow.
 		
+		B2Context b2Context_numVisible = new B2Context(request);
+		String modified0 = b2Context_numVisible.getSetting(false, true, "modified");
+		int numVisible = 0;
+		if(modified0.equals("true")){
+			numVisible = Integer.parseInt(b2Context_numVisible.getSetting(false, true, "numVisibleStudents"));	
+		}
+		else{
+			numVisible = cmlist.size();
+		}
+		*/
 		
 		//retrieve grade column to be displayed. Use "Total" column if none has been provided, or if the previously chosen grade column has been deleted.
 			String b2_grade_choice = "";
@@ -195,12 +206,12 @@
 	 						//out.print("1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50];");
 
 	 				%>
-		
-				
 	 				gamegogyLeaderboardChart = new Highcharts.Chart({
 					chart: {
 						renderTo: 'leaderboardBlockChartContainer',
 						type: 'bar',
+						height: 1000,
+						//height: numVisible*100,
 						spacingBottom: 75 
 					},
 	                   plotOptions: {
@@ -288,5 +299,5 @@
 				}); //end of chart
 			}); // end of ready function									  		
 		</script>	
-	<div id="leaderboardBlockChartContainer" overflow:scroll></div>
+	<div id="leaderboardBlockChartContainer" style="overflow-y:scroll; overflow-x: hidden; height: 400px"></div>
 </bbNG:includedPage>
