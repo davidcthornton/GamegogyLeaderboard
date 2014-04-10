@@ -13,7 +13,6 @@
 <%@page import="blackboard.servlet.data.MultiSelectBean"%>
 
 <%
-//test push from Tim Burch in lab 3-13-14
 String s = "<script>history.go(-2);</script>";
 
 if (request.getMethod().equalsIgnoreCase("POST")) {
@@ -62,12 +61,11 @@ if (request.getMethod().equalsIgnoreCase("POST")) {
 					numCommas += 1;
 				}
 			}
+			numCommas += 1;//For example if you have only one student, there wouldn't be a comma.
 		}
-		else numCommas = 1;
 		
-		String numStudents = numCommas + "";
-		
-		b2Context_c.setSetting(false, true, "numVisibleStudents" + courseID, numStudents);
+		//Number of visible students.
+		b2Context_c.setSetting(false, true, "numVisibleStudents" + courseID, Integer.toString(numCommas));
 		
 		// Save course settings
 		b2Context_c.persistSettings(false, true);
