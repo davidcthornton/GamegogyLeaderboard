@@ -58,20 +58,17 @@
 		}	
 		Double scoreToHighlight = -1.0;
 		int index = 0;
-		/*
-		Starting point for dynamic chart sizing for scrolling based on number of students.
-		Currently default at 1000. Needs to be moved to javascript somehow.
-		
+
+		//Get number of visible students. This is used to determined height of the leaderboard.		
 		B2Context b2Context_numVisible = new B2Context(request);
-		String modified0 = b2Context_numVisible.getSetting(false, true, "modified");
+		String modifiedd = b2Context_numVisible.getSetting(false, true, "modified" + courseID.toExternalString());
 		int numVisible = 0;
-		if(modified0.equals("true")){
-			numVisible = Integer.parseInt(b2Context_numVisible.getSetting(false, true, "numVisibleStudents"));	
+		if(modifiedd.equals("true")){
+			numVisible = Integer.parseInt(b2Context_numVisible.getSetting(false, true, "numVisibleStudents" + courseID.toExternalString()));	
 		}
 		else{
 			numVisible = cmlist.size();
 		}
-		*/
 		
 		//retrieve grade column to be displayed. Use "Total" column if none has been provided, or if the previously chosen grade column has been deleted.
 			String b2_grade_choice = "";
@@ -210,8 +207,9 @@
 					chart: {
 						renderTo: 'leaderboardBlockChartContainer',
 						type: 'bar',
-						height: 1000,
-						//height: numVisible*100,
+						<% if(numVisible>10) {%>
+							height: <%=numVisible%>*50,
+						<% } %>
 						spacingBottom: 75 
 					},
 	                   plotOptions: {
@@ -299,5 +297,5 @@
 				}); //end of chart
 			}); // end of ready function									  		
 		</script>	
-	<div id="leaderboardBlockChartContainer" style="overflow-y:scroll; overflow-x: hidden; height: 400px"></div>
+	<div id="leaderboardBlockChartContainer" <%if(numVisible > 10) {%>style="overflow-y:scroll; overflow-x: hidden; height: 400px"<% } %>></div>
 </bbNG:includedPage>
